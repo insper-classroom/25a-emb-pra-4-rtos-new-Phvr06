@@ -27,8 +27,8 @@ const int ECHO_PIN = 16;
 const int TRIGGER_PIN = 17;
 
 void pin_callback(uint gpio, uint32_t events) {
-    uint64_t start_time = 0;
-    uint64_t end_time = 0;
+    uint64_t start_time;
+    uint64_t end_time;
 
     if (events == GPIO_IRQ_EDGE_RISE) {
         start_time = to_us_since_boot(get_absolute_time());
@@ -63,7 +63,7 @@ void echo_task(void *p) {
         if (xQueueReceive(xQueueTime, &time, pdMS_TO_TICKS(1000)) == pdTRUE) {
             if (par % 2 != 0) {
                 end_time = time;
-            } else if (par % 2 == 0) {
+            } else {
                 start_time = time;
             }
             par++;
